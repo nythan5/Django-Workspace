@@ -2,16 +2,13 @@
 from django.contrib import admin
 from django.urls import path
 from django.http import HttpResponse
-
-
-def my_view(request):
-    return HttpResponse('About me')
+from recipes import views
 
 
 urlpatterns = [
-
-    # ele nunca começa com '/' mas pode terminar com /
     path('admin/', admin.site.urls),
-    path('home/', my_view)
-
+    path('outra-coisa-qualquer/', views.my_view),
+    path('', views.home),  # Home
+    path('sobre/', views.sobre),  # /sobre/
+    path('contato/', views.contato),  # /contato/
 ]
