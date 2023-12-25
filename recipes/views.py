@@ -9,11 +9,11 @@ def my_view(request):
 
 
 def home(request):
-    return HttpResponse('HOME')
+    return render(request, 'recipes/home.html', context={'name': 'Gabriel Nathan'},)
 
 
 def contato(request):
-    return HttpResponse('contato')
+    return render(request, 'recipes/contato.html')
 
 
 def sobre(request):
