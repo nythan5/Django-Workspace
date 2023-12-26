@@ -3,6 +3,6 @@ from recipes import views
 
 
 urlpatterns = [
-    path('', views.home),  # Home
+    path('pages/', views.home),  # Home
 
 ]
