@@ -70,4 +70,5 @@ class RegisterForm(forms.ModelForm):
             'password': forms.PasswordInput(attrs={
                 'placeholder': 'Type your password here'
             })
+
         }
