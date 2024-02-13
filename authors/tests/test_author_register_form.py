@@ -1,6 +1,6 @@
-from django.test import TestCase
 from authors.forms import RegisterForm
 from parameterized import parameterized
+from unittest import TestCase
 
 
 class AuthorRegisterFormUnitTest(TestCase):
@@ -32,7 +32,7 @@ class AuthorRegisterFormUnitTest(TestCase):
     ])
     def test_fields_help_text(self, field, needed):
         form = RegisterForm()
-        current = form['field'].field.help_text
+        current = form[field].field.help_text
         self.assertEqual(current, needed)
 
     @parameterized.expand([
