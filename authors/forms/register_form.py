@@ -5,7 +5,6 @@ from utils.django_forms import add_placeholder, strong_password
 
 
 class RegisterForm(forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         add_placeholder(self.fields['username'], 'Your username')
@@ -17,10 +16,10 @@ class RegisterForm(forms.ModelForm):
 
     username = forms.CharField(
         label='Username',
-        help_text=('Username must have letters, numbers or one of those @.+-_. '
-                   'The length should be between 4 and 150 characters.'
-                   ),
-
+        help_text=(
+            'Username must have letters, numbers or one of those @.+-_. '
+            'The length should be between 4 and 150 characters.'
+        ),
         error_messages={
             'required': 'This field must not be empty',
             'min_length': 'Username must have at least 4 characters',
@@ -45,62 +44,44 @@ class RegisterForm(forms.ModelForm):
 
     password = forms.CharField(
         widget=forms.PasswordInput(),
-        error_messages={
-            'required': 'Password must not be empty'
-        },
+        error_messages={'required': 'Password must not be empty'},
         help_text=(
             'Password must have at least one uppercase letter, '
             'one lowercase letter and one number. The length should be '
             'at least 8 characters.'
-
         ),
         validators=[strong_password],
         label='Password'
     )
+
     password2 = forms.CharField(
         widget=forms.PasswordInput(),
         label='Password2',
-        error_messages={
-            'required': 'Please, repeat your password'
-        },
+        error_messages={'required': 'Please, repeat your password'},
     )
 
     class Meta:
         model = User
-        fields = [
-            'first_name',
-            'last_name',
-            'username',
-            'email',
-            'password',
-        ]
-        # exclude = ['first_name']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password']
 
     def clean_email(self):
-        email = self.cleaned_data.get('email', '')
-        exists = User.objects.filter(email=email).exists()
-
-        if exists:
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
             raise ValidationError(
-                'User e-mail is already in use', code='invalid',
-            )
-
+                'User e-mail is already in use', code='invalid')
         return email
 
     def clean(self):
         cleaned_data = super().clean()
 
-        password = cleaned_data.get('password')
-        password2 = cleaned_data.get('password2')
+        password = cleaned_data.get('password', None)
+        password2 = cleaned_data.get('password2', None)
 
         if password != password2:
             password_confirmation_error = ValidationError(
-                'Password and password2 must be equal',
-                code='invalid'
+                'Password and password2 must be equal', code='invalid'
             )
             raise ValidationError({
                 'password': password_confirmation_error,
-                'password2': [
-                    password_confirmation_error,
-                ],
+                'password2': [password_confirmation_error],
             })
