@@ -433,3 +433,9 @@ h6 {
     display: inline;
     
   }
+
+  /* Authors */
+
+  .login-message{
+    margin: 1rem 0;
+  }
