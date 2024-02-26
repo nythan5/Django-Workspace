@@ -31,6 +31,6 @@ class AuthorsLoginTest(AuthorsBaseTest):
 
         # Usuário vê a mensagem de login com sucesso e seu nome
         self.assertIn(
-            f'Your are logged in with {user.username}.',
+            f'Your are logged in with {user.username} Please, click here to logout',
             self.browser.find_element(By.TAG_NAME, 'body').text
         )
