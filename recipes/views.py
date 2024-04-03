@@ -7,7 +7,7 @@ import os
 from django.views.generic import ListView, DetailView
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
-from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 
 
 # Create your views here.
@@ -16,11 +16,16 @@ PER_PAGE = os.environ.get("PER_PAGE", 6)
 
 
 def theory(request, *args, **kwargs):
-    try:
-        recipes = Recipe.objects.get(pk=1)
-
-    except ObjectDoesNotExist:
-        recipes = None
+    recipes = Recipe.objects.filter(
+        Q(
+            Q(
+                title__icontains='ovo',
+                id__gt=2) |
+            Q(
+                title__icontains='salada'
+            )
+        )
+    )
 
     context = {'recipes': recipes}
     return render(request, 'recipes/pages/theory.html', context=context)
