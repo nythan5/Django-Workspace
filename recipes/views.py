@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from recipes.models import Recipe
 from django.http.response import Http404
-from django.db.models import Q
+from django.db.models import Q, F
 from utils.pagination import make_pagination
 import os
 from django.views.generic import ListView, DetailView
@@ -17,14 +17,7 @@ PER_PAGE = os.environ.get("PER_PAGE", 6)
 
 def theory(request, *args, **kwargs):
     recipes = Recipe.objects.filter(
-        Q(
-            Q(
-                title__icontains='ovo',
-                id__gt=2) |
-            Q(
-                title__icontains='salada'
-            )
-        )
+        id=F('author__id')
     )
 
     context = {'recipes': recipes}
