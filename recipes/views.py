@@ -7,7 +7,6 @@ import os
 from django.views.generic import ListView, DetailView
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
-from django.db.models import Q
 
 
 # Create your views here.
@@ -16,8 +15,8 @@ PER_PAGE = os.environ.get("PER_PAGE", 6)
 
 
 def theory(request, *args, **kwargs):
-    recipes = Recipe.objects.filter(
-        id=F('author__id')
+    recipes = Recipe.objects.values(
+        'id', 'title', 'author__username'
     )
 
     context = {'recipes': recipes}
