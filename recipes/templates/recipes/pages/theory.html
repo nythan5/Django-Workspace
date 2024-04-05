@@ -8,9 +8,12 @@
 </head>
 <body>
   <h1>Theory</h1>
+
+  <p>Total de receitas {{total_receitas}}</p>
+
   <ul>
     {% for recipe in recipes %}
-      <li>{{recipe.id}} {{recipe.author__username}} {{recipe.title}}</li>
+      <li>{{recipe.id}} - {{recipe.title}}</li>
 
     {% empty %}
       <p>No recipes found</p>

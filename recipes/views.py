@@ -7,6 +7,7 @@ import os
 from django.views.generic import ListView, DetailView
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from django.db.models.aggregates import Count
 
 
 # Create your views here.
@@ -15,11 +16,15 @@ PER_PAGE = os.environ.get("PER_PAGE", 6)
 
 
 def theory(request, *args, **kwargs):
-    recipes = Recipe.objects.values(
-        'id', 'title', 'author__username'
+    recipes = Recipe.objects.only(
+        'id', 'title'
     )
 
-    context = {'recipes': recipes}
+    number_recipes = recipes.aggregate(Count('id'))
+
+    context = {'recipes': recipes,
+               'total_receitas': number_recipes['id__count']
+               }
     return render(request, 'recipes/pages/theory.html', context=context)
 
 
