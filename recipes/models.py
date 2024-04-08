@@ -2,7 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.text import slugify
+from django.contrib.contenttypes.fields import GenericRelation
+from tag.models import Tag
 # Create your models here.
+
+
+class RecipeManager(models.Manager):
+    def get_published(self):
+        return self.filter(
+            is_published=True
+        )
 
 
 class Category(models.Model):
@@ -14,6 +23,7 @@ class Category(models.Model):
 
 # Ele sempre importa do MODELS pq é o MODEL do django que faz toda a ligacao com o Database
 class Recipe(models.Model):
+    objects = RecipeManager()
     title = models.CharField(max_length=65)
     description = models.CharField(max_length=165)
     slug = models.SlugField(unique=True)
@@ -31,6 +41,7 @@ class Recipe(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    tags = GenericRelation(Tag, related_query_name='recipes')
 
     def __str__(self):
         return self.title
