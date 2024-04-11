@@ -29,7 +29,7 @@ if os.environ.get('DEBUG', None) is None:
 SECRET_KEY = os.environ.get('SECRET_KEY', 'INSECURE')  # noqa: E501
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # if os.environ.get('DEBUG') == '1' else False
+DEBUG = if os.environ.get('DEBUG') == '1' else False
 
 ALLOWED_HOSTS: list[str] = ['34.95.22.122']
 
