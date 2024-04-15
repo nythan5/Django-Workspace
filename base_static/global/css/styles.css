@@ -473,3 +473,8 @@ a{
     list-style: none;
     margin: 1rem 0;
 }
+
+.hidden-text {
+    display: none;
+  }
+  
