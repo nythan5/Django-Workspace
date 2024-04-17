@@ -10,6 +10,7 @@ from django.views.generic import ListView, DetailView
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.db.models.aggregates import Count
+from django.utils import translation
 
 
 # Create your views here.
@@ -51,8 +52,12 @@ class RecipeListViewBase(ListView):
             ctx.get('recipes'),
             PER_PAGE
         )
+        html_language = translation.get_language()
         ctx.update(
-            {'recipes': page_obj, 'pagination_range': pagination_range}
+            {'recipes': page_obj,
+             'pagination_range': pagination_range,
+             'html_language': html_language
+             }
         )
         return ctx
 
